@@ -81,7 +81,7 @@ while ($obj = $result->fetch_object()) {
             </section>
         </main>
 
-        <script src="../assets/js/main.js"></script>
+        <script src="js/main.js"></script>
     </body>
 
     </html>

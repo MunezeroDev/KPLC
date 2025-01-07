@@ -1,11 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // function to dynamically display county & town 
     const countySelect = document.querySelector('#countySelect');
     const townSelect = document.querySelector('#townSelect');
-
-    const clientRegisterform = document.getElementById("register-form");
-    const clientLoginForm = document.getElementById('login-form');
-
-    // function to dynamically display county & town 
     function countyTownSelect() {
         const countyTowns = {
             Baringo: ['Kabarnet', 'Eldama Ravine', 'Marigat'],
@@ -120,7 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Form Validator
+    // Register Form Validator
+    const clientRegisterform = document.getElementById("register-form");
     function FormValidator() {
         const createPassword = clientRegisterform.querySelector("#create-pass");
         const confirmPassword = clientRegisterform.querySelector("#confirm-pass");
@@ -147,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
             submitFormData();
         });
     }
-
     // Submit client register form data using ajax
     function submitFormData() {
         const formData = new FormData(clientRegisterform);
@@ -177,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Send the request
         xhr.send(formData);
     }
-
     // display pop-message after sign-up
     function displayModal(message) {
         // Parse the JSON messag
@@ -223,7 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
     }
-
     // register 
     if (clientRegisterform) {
         countyTownSelect();
@@ -233,6 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //Submit  client login data using ajax 
+    const clientLoginForm = document.getElementById('login-form');
     function clientLogin() {
         clientLoginForm.addEventListener("submit", function (event) {
             event.preventDefault();
@@ -259,7 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
             xhr.send(formData);
         });
     }
-
     // show login message 
     function loginMessage(message) {
         const parsedMessage = JSON.parse(message);
@@ -283,7 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
             loginMessage.classList.add('error');
         }
     }
-
     // login 
     if (clientLoginForm) {
         clientLogin();
@@ -315,7 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
             xhr.send(formData);
         });
     }
-
     // alert after update
     function displayAlert(message, type = 'success', duration = 5000) {
 
@@ -342,7 +334,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }, duration);
         }
     }
-
     // profile 
     if (profileForm) {
         countyTownSelect();

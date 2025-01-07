@@ -257,7 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </article>
     </main>
 
-    <script src="../assets/js/credentials.js"></script>
+    <script src="js/credentials.js"></script>
 </body>
 
 </html>

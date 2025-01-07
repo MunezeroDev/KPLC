@@ -301,7 +301,8 @@ body {
 }
 
 .breadcrumb-item {
-    font-size: 0.875rem;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 .breadcrumb-item a {

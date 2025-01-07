@@ -146,8 +146,8 @@ while ($obj = $result->fetch_object()) {
             </section>
         </main>
 
-        <script src="../assets/js/main.js"></script>
-        <script src="../assets/js/credentials.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/credentials.js"></script>
     </body>
 
     </html>

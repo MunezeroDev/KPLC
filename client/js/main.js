@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const activeSubMenu = document.querySelector('.sub-menu.active');
                 const activeIcon = document.querySelector('.drop-submenu-icon.active');
 
-
                 const toggleIcon = toggleButton.querySelector('.drop-submenu-icon');
                 const subMenu = toggleButton.closest('.nav-item').querySelector('.sub-menu');
 
@@ -80,6 +79,64 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     dropUserMenu();
+
+    // update  user profile
+    const profileForm = document.querySelector('#profile-form');
+    function updateUser() {
+        profileForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(profileForm);
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "profile_update_handler.php", true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    displayAlert(xhr.responseText, 'success');
+                } else {
+                    displayAlert('An error occurred', 'error');
+                }
+            };
+
+            xhr.onerror = function () {
+                displayAlert("Network error occurred. Try Again Later.", 'error');
+            };
+
+            // Send the request
+            xhr.send(formData);
+        });
+    }
+    // alert after update
+    function displayAlert(message, type = 'success', duration = 5000) {
+
+        const parsedMessage = JSON.parse(message);
+
+        const alertElement = document.querySelector('.full-width-alert');
+        const messageElement = alertElement.querySelector('.message');
+
+        messageElement.textContent = parsedMessage.message;
+
+        alertElement.classList.remove('success', 'error', 'warning', 'info');
+        alertElement.classList.add(type);
+
+        alertElement.classList.add('display');
+
+        const actionButton = alertElement.querySelector('.action-button');
+        actionButton.addEventListener('click', () => {
+            alertElement.classList.remove('display');
+        });
+
+        if (duration) {
+            setTimeout(() => {
+                alertElement.classList.remove('display');
+            }, duration);
+        }
+    }
+    // profile 
+    if (profileForm) {
+        countyTownSelect();
+        setMaxDate();
+        updateUser();
+    }
 
     // connection submission
     const connectionform = document.getElementById('conn_form');
