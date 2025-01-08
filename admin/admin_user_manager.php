@@ -14,16 +14,18 @@ $stmt->bind_param('s', $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Fetch connection information 
-$query_conn = "SELECT * FROM connections ORDER BY connection_id";
-$stmt = $mysqliObj->prepare($query_conn);
+// Modified query to only select CLIENT role
+$queryrow = "SELECT * FROM users WHERE role = ? ORDER BY user_id";
+$stmt = $mysqliObj->prepare($queryrow);
+$role = 'CLIENT';  // We only need one parameter now
+$stmt->bind_param('s', $role);  // Binding single string parameter
 $stmt->execute();
-$result_conn = $stmt->get_result();
+$resultrow = $stmt->get_result();
+
 
 while ($obj = $result->fetch_object()) {
 ?>
 
-    <!DOCTYPE html>
     <!DOCTYPE html>
     <html lang="en">
 
@@ -48,7 +50,8 @@ while ($obj = $result->fetch_object()) {
 
                 <div class="members">
                     <div class="members-tabs">
-                        <a href="admin_user_manager.php" class="members-tab active">Connection</a>
+                        <a href="admin_user_manager.php" class="members-tab active">Clients</a>
+                        <a href="admin_staff_manager.php" class="members-tab">Staff</a>
                     </div>
                 </div>
 
@@ -68,17 +71,15 @@ while ($obj = $result->fetch_object()) {
                     <table>
                         <thead>
                             <tr>
-                                <th>Connection ID</th>
-                                <th>Connection</th>
+                                <th>userId</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Gender</th>
+                                <th>Email</th>
+                                <th>Contact</th>
+                                <th>County</th>
+                                <th>Town</th>
 
-                                <th>Premise</th>
-                                <th>Ownership</th>
-                                <th>Phase</th>
-
-                                <th>Location</th>
-
-
-                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -86,33 +87,31 @@ while ($obj = $result->fetch_object()) {
 
                             <?php
                             // Display the results
-                            if ($result_conn) {
+                            if ($resultrow) {
                                 // Fetch each client's data and display in table format
-                                while ($conn = $result_conn->fetch_assoc()) {
+                                while ($user = $resultrow->fetch_assoc()) {
                                     echo "
                                         <tr>
                                             <td>
-                                                <div class='user-id'>" . htmlspecialchars($conn['connection_id']) . "</div>
-                                            </td> 
-                                            <td>" . htmlspecialchars($conn['connection_type']) . "</td>
-
-                                            <td>" . htmlspecialchars($conn['premises_type']) . "</td>
-                                            <td>" . htmlspecialchars($conn['property_ownership']) . "</td>
-                                            <td>" . htmlspecialchars($conn['phase_type']) . "</td>
-                                         
-                                            <td>" . htmlspecialchars($conn['location']) . "</td>
-
-                                            <td>" . htmlspecialchars($conn['application_progress']) . "</td>
+                                                <div class='user-id'>" . htmlspecialchars($user['user_id']) . "</div>
+                                            </td>
+                                            <td>" . htmlspecialchars($user['first_name']) . "</td>
+                                            <td>" . htmlspecialchars($user['last_name']) . "</td>
+                                            <td>" . htmlspecialchars($user['gender']) . "</td>
+                                            <td>" . htmlspecialchars($user['email']) . "</td>
+                                            <td>" . htmlspecialchars($user['mobile_number']) . "</td>
+                                            <td>" . htmlspecialchars($user['county']) . "</td>
+                                            <td>" . htmlspecialchars($user['town']) . "</td>
                                             <td>
                                                 <div class='operations'>
-                                                    <i class='bx bx-trash operation-icon delete' title='Delete' data-id='" . htmlspecialchars($conn['connection_id']) . "'></i>
+                                                    <i class='bx bx-trash operation-icon delete' title='Delete' data-id='" . htmlspecialchars($user['user_id']) . "'></i>
                                                 </div>
                                             </td>
                                         </tr>";
                                 }
 
                                 // Clean up our database resources
-                                $result_conn->free();
+                                $resultrow->free();
                             }
 
                             ?>
@@ -141,8 +140,7 @@ while ($obj = $result->fetch_object()) {
 
             </section>
         </main>
-
-        <script src="../assets/js/main.js"></script>
+        <script src="js/main.js"></script>
     </body>
 
     </html>

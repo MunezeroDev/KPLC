@@ -48,7 +48,7 @@ while ($obj = $result->fetch_object()) {
 
                 <div class="members">
                     <div class="members-tabs">
-                        <a href="admin_user_manager.php" class="members-tab active">Connection</a>
+                        <a href="admin_user_manager.php" class="members-tab active">Connections</a>
                     </div>
                 </div>
 
@@ -142,7 +142,7 @@ while ($obj = $result->fetch_object()) {
             </section>
         </main>
 
-        <script src="../assets/js/main.js"></script>
+        <script src="js/main.js"></script>
     </body>
 
     </html>

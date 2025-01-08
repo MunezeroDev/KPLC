@@ -14,16 +14,22 @@ $stmt->bind_param('s', $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Fetch connection information 
-$query_conn = "SELECT * FROM connections ORDER BY connection_id";
-$stmt = $mysqliObj->prepare($query_conn);
+$queryrow = "SELECT u.*, sd.availability 
+             FROM users u
+             LEFT JOIN staff_details sd ON u.user_id = sd.staff_id
+             WHERE u.role = ?
+             ORDER BY u.user_id";
+
+$stmt = $mysqliObj->prepare($queryrow);
+$role = 'STAFF';
+$stmt->bind_param('s', $role);
 $stmt->execute();
-$result_conn = $stmt->get_result();
+$resultrow = $stmt->get_result();
+
 
 while ($obj = $result->fetch_object()) {
 ?>
 
-    <!DOCTYPE html>
     <!DOCTYPE html>
     <html lang="en">
 
@@ -48,7 +54,8 @@ while ($obj = $result->fetch_object()) {
 
                 <div class="members">
                     <div class="members-tabs">
-                        <a href="admin_user_manager.php" class="members-tab active">Connection</a>
+                        <a href="admin_user_manager.php" class="members-tab">Clients</a>
+                        <a href="admin_staff_manager.php" class="members-tab active">Staff</a>
                     </div>
                 </div>
 
@@ -59,65 +66,69 @@ while ($obj = $result->fetch_object()) {
                             <i class='bx bx-search'></i>
                             <input type="text" class="search-input" placeholder="Search members...">
                         </div>
-                        <!-- <button class="add-new-btn">
-                        <i class='bx bx-plus'></i>
-                        Add new
-                    </button> -->
+
+                        <a href="admin_add_staff.php">
+                            <button class="add-new-btn">
+                                <i class='bx bx-plus'></i>
+                                Add new staff
+                            </button>
+                        </a>
+
                     </div>
 
                     <table>
                         <thead>
                             <tr>
-                                <th>Connection ID</th>
-                                <th>Connection</th>
+                                <th>userId</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Gender</th>
+                                <th>Email</th>
+                                <th>Contact</th>
+                                <th>County </th>
+                                <th>Town</th>
+                                <th>Availability</th>
 
-                                <th>Premise</th>
-                                <th>Ownership</th>
-                                <th>Phase</th>
-
-                                <th>Location</th>
-
-
-                                <th>Status</th>
                                 <th>Action</th>
+                                <!-- <th>Operation</th> -->
                             </tr>
                         </thead>
                         <tbody>
 
                             <?php
                             // Display the results
-                            if ($result_conn) {
+                            if ($resultrow) {
                                 // Fetch each client's data and display in table format
-                                while ($conn = $result_conn->fetch_assoc()) {
+                                while ($row = $resultrow->fetch_assoc()) {
                                     echo "
                                         <tr>
                                             <td>
-                                                <div class='user-id'>" . htmlspecialchars($conn['connection_id']) . "</div>
-                                            </td> 
-                                            <td>" . htmlspecialchars($conn['connection_type']) . "</td>
-
-                                            <td>" . htmlspecialchars($conn['premises_type']) . "</td>
-                                            <td>" . htmlspecialchars($conn['property_ownership']) . "</td>
-                                            <td>" . htmlspecialchars($conn['phase_type']) . "</td>
-                                         
-                                            <td>" . htmlspecialchars($conn['location']) . "</td>
-
-                                            <td>" . htmlspecialchars($conn['application_progress']) . "</td>
+                                                <div class='user-id'>" . htmlspecialchars($row['user_id']) . "</div>
+                                            </td>
+                                            <td>" . htmlspecialchars($row['first_name']) . "</td>
+                                            <td>" . htmlspecialchars($row['last_name']) . "</td>
+                                            <td>" . htmlspecialchars($row['gender']) . "</td>
+                                            <td>" . htmlspecialchars($row['email']) . "</td>
+                                            <td>" . htmlspecialchars($row['mobile_number']) . "</td>
+                                            <td>" . htmlspecialchars($row['county']) . "</td>
+                                            <td>" . htmlspecialchars($row['town']) . "</td>
+                                            <td>" . htmlspecialchars($row['availability']) . "</td>
                                             <td>
                                                 <div class='operations'>
-                                                    <i class='bx bx-trash operation-icon delete' title='Delete' data-id='" . htmlspecialchars($conn['connection_id']) . "'></i>
+                                                    <i class='bx bx-trash operation-icon delete' title='Delete' data-id='" . htmlspecialchars($row['user_id']) . "'></i>
                                                 </div>
                                             </td>
                                         </tr>";
                                 }
 
                                 // Clean up our database resources
-                                $result_conn->free();
+                                $resultrow->free();
                             }
 
                             ?>
-
                             <!-- More rows can be added here -->
+
+
                         </tbody>
                     </table>
 
@@ -142,7 +153,7 @@ while ($obj = $result->fetch_object()) {
             </section>
         </main>
 
-        <script src="../assets/js/main.js"></script>
+        <script src="js/main.js"></script>
     </body>
 
     </html>
