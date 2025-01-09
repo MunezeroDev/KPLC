@@ -1337,65 +1337,55 @@ body {
 
 /* Base alert styles */
 .alert {
-    padding: 1rem;
-    margin-bottom: 1rem;
+    padding: 12px 20px;
+    margin: 1rem 0;
+
     border: 1px solid transparent;
-    border-radius: 0.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* Transition for fade effect */
-    opacity: 1;
-    transition: opacity 0.15s linear;
+    border-radius: 4px;
+    position: relative;
 }
 
-/* Warning variant */
-.alert {
-    /* Basic layout */
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid transparent;
-    border-radius: 0.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    /* Transition for fade effect */
-    opacity: 1;
-    transition: opacity 0.15s linear;
-}
-
-/* Warning variant */
 .alert-warning {
     background-color: #fff3cd;
     border-color: #ffeeba;
     color: #856404;
 }
 
-/* Close button styles */
+/* Make the alert dismissible */
+.alert-dismissible {
+    padding-right: 4rem;
+}
+
+/* Fade transition effect */
+.fade {
+    transition: opacity 0.15s linear;
+    opacity: 0;
+}
+
+/* Show state - when the alert is visible */
+.show {
+    opacity: 1;
+}
+
+/* Close button styling */
 .close {
-    padding: 0;
-    background-color: transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 12px 20px;
+    color: inherit;
+    background: transparent;
     border: 0;
     float: right;
     font-size: 1.5rem;
     font-weight: 700;
     line-height: 1;
-    color: #000;
-    text-shadow: 0 1px 0 #fff;
     opacity: 0.5;
     cursor: pointer;
 }
 
+/* Hover state for close button */
 .close:hover {
     opacity: 0.75;
-}
-
-/* Hide dismissed alerts */
-.alert.fade {
-    opacity: 0;
-}
-
-.alert.hide {
-    display: none;
+    text-decoration: none;
 }

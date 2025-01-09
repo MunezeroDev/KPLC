@@ -15,8 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Invalid data received.']);
     }
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
 }
 
 function sendStaffNotification($staff_id, $connectionId, $message)
