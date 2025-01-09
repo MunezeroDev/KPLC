@@ -18,7 +18,7 @@
 
         <ul>
             <li> <a href="./admin/admin_login.php" target="_blank">Admin Portal</a></li>
-            <li> <a href="">Staff Portal</a></li>
+            <li> <a href="./staff/staff-login.php">Staff Portal</a></li>
             <li> <a href="./client/client-login.php" target="_blank">Client Portal</a></li>
         </ul>
     </nav>
