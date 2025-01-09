@@ -3,6 +3,7 @@ session_start();
 header('Content-Type: application/json');
 include('../config/config.php');
 include('../config/checklogin.php');
+
 check_login();
 
 // Retrieve and sanitize the POST parameters

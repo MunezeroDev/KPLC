@@ -70,6 +70,14 @@ while ($obj = $result->fetch_object()) {
         <main class="main-section">
             <section class="main-section-wrapper">
 
+                <!-- message  -->
+                <div class="full-width-alert">
+                    <div class="alert-content">
+                        <span class="message"></span>
+                    </div>
+                    <button class="action-button">Cancel</button>
+                </div>
+
                 <div class="members">
                     <div class="members-tabs">
                         <a href="admin_user_manager.php" class="members-tab active">Connections</a>
@@ -83,8 +91,6 @@ while ($obj = $result->fetch_object()) {
                             <i class='bx bx-search'></i>
                             <input type="text" class="search-input" placeholder="Search members...">
                         </div>
-
-
                     </div>
 
                     <div class="assign-task-container">

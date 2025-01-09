@@ -43,21 +43,39 @@ while ($obj = $result->fetch_object()) {
                     <h1> Welcome <?php echo $obj->first_name; ?> </h1>
                 </section>
 
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <div>
-                        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                <?php
+                require_once 'notification.php';
+                if (hasNotification()) {
+                    $notification = json_decode(getNotification(), true);
+                ?>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Holy guacamole!</strong> <?php echo htmlspecialchars($notification['message']); ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+                <?php } ?>
 
             </section>
         </main>
 
         <script src="js/main.js"></script>
         <script>
-            
+            document.querySelectorAll('.alert .close').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Find the parent alert
+                    const alert = this.closest('.alert');
+
+                    // Remove the 'show' class and add 'hide' class
+                    alert.classList.remove('show');
+                    alert.classList.add('fade');
+
+                    // After transition completes, hide the alert completely
+                    setTimeout(() => {
+                        alert.classList.add('hide');
+                    }, 150); // Match the CSS transition duration
+                });
+            });
         </script>
     </body>
 
