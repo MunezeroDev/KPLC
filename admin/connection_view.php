@@ -20,6 +20,30 @@ $stmt = $mysqliObj->prepare($query_conn);
 $stmt->execute();
 $result_conn = $stmt->get_result();
 
+$query_staff = "
+        SELECT 
+            u.user_id as staff_id,  
+            u.first_name,
+            u.last_name,
+            s.availability
+        FROM 
+            users u
+        INNER JOIN 
+            staff_details s
+        ON 
+            u.user_id = s.staff_id
+        WHERE 
+            u.role = 'STAFF' AND 
+            s.availability = 'available'
+        ORDER BY 
+            u.seq_id
+        ";
+
+$stmt = $mysqliObj->prepare($query_staff);
+$stmt->execute();
+$result_staff = $stmt->get_result();
+$staff_count = $result_staff->num_rows;
+
 while ($obj = $result->fetch_object()) {
 ?>
 
@@ -59,10 +83,50 @@ while ($obj = $result->fetch_object()) {
                             <i class='bx bx-search'></i>
                             <input type="text" class="search-input" placeholder="Search members...">
                         </div>
-                        <!-- <button class="add-new-btn">
-                        <i class='bx bx-plus'></i>
-                        Add new
-                    </button> -->
+
+
+                    </div>
+
+                    <div class="assign-task-container">
+                        <div class="assign-task-close">
+                            <a href="" class="assign-close-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class='assign-header-section'>
+                            <?php if ($staff_count > 0): ?>
+                                <span>Available Staff</span>
+                                <span class='assign-header-label'><?= $staff_count ?></span>
+                            <?php else: ?>
+                                <span>Available Staff</span>
+                                <span class='assign-header-label'>Oops, no staff available now</span>
+                            <?php endif; ?>
+                        </div>
+
+                        <ul class="assign-staff-list">
+                            <?php
+                            if ($staff_count > 0) {
+                                while ($row = $result_staff->fetch_assoc()) {
+                                    echo "
+                                    <li class='assign-staff-item'>
+                                        <div class='assign-staff-checkbox'></div>
+                                        <div class='assign-staff-content'>
+                                            <div class='task-name'>" .   htmlspecialchars($row['first_name']),  htmlspecialchars($row['last_name'])  . "</div>
+                                            <div class='assign-staff-meta'>
+                                                <a class='assign-staff-link' data-staff-id='" . htmlspecialchars($row['staff_id']) . "'>Assign</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                ";
+                                }
+                            }
+                            ?>
+                        </ul>
+
+
                     </div>
 
                     <table>
@@ -78,7 +142,8 @@ while ($obj = $result->fetch_object()) {
                                 <th>Location</th>
 
 
-                                <th>Status</th>
+                                <th>Task Status</th>
+                                <th>Progress</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -102,11 +167,12 @@ while ($obj = $result->fetch_object()) {
                                          
                                             <td>" . htmlspecialchars($conn['location']) . "</td>
 
+                                            
+                                            <td>" . htmlspecialchars($conn['connection_status']) . "</td>
                                             <td>" . htmlspecialchars($conn['application_progress']) . "</td>
+
                                             <td>
-                                                <div class='operations'>
-                                                    <i class='bx bx-trash operation-icon delete' title='Delete' data-id='" . htmlspecialchars($conn['connection_id']) . "'></i>
-                                                </div>
+                                                 <button class='assign-btn'  data-id='" . htmlspecialchars($conn['connection_id']) . "'>Assign Staff</button>
                                             </td>
                                         </tr>";
                                 }
@@ -117,7 +183,7 @@ while ($obj = $result->fetch_object()) {
 
                             ?>
 
-                            <!-- More rows can be added here -->
+
                         </tbody>
                     </table>
 

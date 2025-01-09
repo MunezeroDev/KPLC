@@ -258,5 +258,74 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-});
+    //toggle staff container 
+    const assignToggleBtn = document.querySelector('.assign-btn');
+    const taskContainer = document.querySelector('.assign-task-container');
+    if (taskContainer) {
+        const assignContainerClose = document.querySelector('.assign-close-btn');
+        assignToggleBtn.addEventListener('click', () => {
+            taskContainer.classList.toggle('hidden');
+        });
+        assignContainerClose.addEventListener('click', () => {
+            taskContainer.classList.toggle('hidden');
+        });
+    }
 
+    function getConnection() {
+        document.querySelectorAll('.assign-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                changeAvailability(id);
+            });
+        });
+
+    }
+    getConnection();
+
+
+    function changeAvailability(connectionId) {
+        // Remove existing event listeners by cloning and replacing elements
+        document.querySelectorAll('.assign-staff-link').forEach(link => {
+            const newLink = link.cloneNode(true);
+            link.parentNode.replaceChild(newLink, link);
+
+            newLink.addEventListener('click', function () {
+                const staffId = this.dataset.staffId;
+                console.log('Assigned staff ID:', staffId);
+                console.log('Connection ID:', connectionId);
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'update_staff_availability.php', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            if (response.status === 'success') {
+                                alert(response.message);
+                                // Update UI to reflect the change
+                                // newLink.classList.add('disabled');
+                                // newLink.textContent = 'Assigned';
+                                // Optionally refresh the page or update other UI elements
+                                location.reload();
+                            } else {
+                                alert('Error: ' + response.message);
+                            }
+                        } catch (e) {
+                            console.error('JSON parsing error:', e);
+                            alert('Error processing response');
+                        }
+                    } else {
+                        alert('Server error: ' + xhr.status);
+                    }
+                };
+
+                const data = 'staff_id=' + encodeURIComponent(staffId) +
+                    '&connection_id=' + encodeURIComponent(connectionId);
+                xhr.send(data);
+            });
+        });
+    }
+    // ..............
+}); 

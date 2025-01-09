@@ -118,6 +118,9 @@ while ($obj = $result->fetch_object()) {
                                                     <i class='bx bx-trash operation-icon delete' title='Delete' data-id='" . htmlspecialchars($row['user_id']) . "'></i>
                                                 </div>
                                             </td>
+                                             <td>
+                                                 <button class='assign-btn'  data-id='" . htmlspecialchars($row['user_id']) . "'>Assign</button>
+                                            </td>
                                         </tr>";
                                 }
 
