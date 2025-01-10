@@ -15,7 +15,8 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 // Fetch connection information 
-$query_conn = "SELECT * FROM connections ORDER BY connection_id";
+// $query_conn = "SELECT * FROM connections ORDER BY connection_id";
+$query_conn = "SELECT * FROM connections WHERE application_progress = 'Pending' ORDER BY connection_id";
 $stmt = $mysqliObj->prepare($query_conn);
 $stmt->execute();
 $result_conn = $stmt->get_result();
@@ -80,8 +81,8 @@ while ($obj = $result->fetch_object()) {
 
                 <div class="members">
                     <div class="members-tabs">
-                        <a href="connection_view.php" class="members-tab active">All Connections</a>
-                        <a href="connections_pending.php" class="members-tab">Pending Connections</a>
+                        <a href="connection_view.php" class="members-tab ">All Connections</a>
+                        <a href="connections_pending.php" class="members-tab active">Pending Connections</a>
                         <a href="connections_review.php" class="members-tab">Connections Under Review</a>
                     </div>
                 </div>

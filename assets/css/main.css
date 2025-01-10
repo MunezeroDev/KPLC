@@ -1389,3 +1389,73 @@ body {
     opacity: 0.75;
     text-decoration: none;
 }
+
+/* METRIC */
+.metrics-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.metric-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    min-width: 250px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.metric-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.metric-value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Specific colors for each metric */
+.customers .metric-title {
+    color: #22c55e;
+}
+
+.orders .metric-title {
+    color: #3b82f6;
+}
+
+.delivered .metric-title {
+    color: #06b6d4;
+}
+
+.pending .metric-title {
+    color: #eab308;
+}
+
+.faults .metric-title {
+    color: #f97316;
+}
+
+.frauds .metric-title {
+    color: #dc2626;
+}
+
+.metric-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    opacity: 0.8;
+}

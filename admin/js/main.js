@@ -82,19 +82,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //toggle staff container 
     function assignmentToggle() {
-        const assignToggleBtn = document.querySelector('.assign-btn');
-        const taskContainer = document.querySelector('.assign-task-container');
+        const assignToggleBtns = document.querySelectorAll('.assign-btn'); // Select all assign buttons
+        const taskContainer = document.querySelector('.assign-task-container'); // Assuming there's only one task container
+
         if (taskContainer) {
-            const assignContainerClose = document.querySelector('.assign-close-btn');
-            assignToggleBtn.addEventListener('click', () => {
-                taskContainer.classList.toggle('hidden');
+            const assignContainerClose = document.querySelector('.assign-close-btn'); // Close button inside the container
+
+            assignToggleBtns.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    taskContainer.classList.toggle('hidden');
+                });
             });
+
             assignContainerClose.addEventListener('click', () => {
                 taskContainer.classList.toggle('hidden');
             });
         }
     }
+
     assignmentToggle();
+
 
     // get connection 
     function getConnection() {
@@ -212,8 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         xhr.send(params);
     }
-
-
     // ..............
 });
 
