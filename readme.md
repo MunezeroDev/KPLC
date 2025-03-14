@@ -8,7 +8,7 @@ The KPLC Power Efficiency application is a comprehensive power management system
 
 ### Landing Page : All Users
 
-![alt text](index.png)
+![alt text](Index.png) 
 
 ### Dashboard : User Dashboards
 
